@@ -36,6 +36,7 @@ int main()
         }
     }
     M1.setArray(p);
-    M1.printMatrix();
-    
+    double temp=M1.getDet();
+    cout<<temp<<endl;
+    return 0;
 }
