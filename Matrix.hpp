@@ -9,6 +9,7 @@
 #define Matrix_hpp
 
 #include <iostream>
+#include "Fraction.hpp"
 
 class Matrix
 {
@@ -16,16 +17,17 @@ class Matrix
 private:
     int rowCount;
     int columnCount;
-    int det;
-    int** location;
+    double det;
+    double** location;
     
     
 public:
     Matrix(int r=1,int c=1);
     void setRow(int);
     void setColumn(int);
-    void setElement(int, int, int);
-    void setArray(int**);
-    
+    void setElement(int, int, double);
+    void setArray(double**);
+    double getElement(int, int);
+    void printMatrix();
 };
 #endif /* Matrix_hpp */

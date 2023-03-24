@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cmath>
 #include "Matrix.hpp"
+#include "Fraction.hpp"
 
 using namespace std;
 
@@ -20,10 +21,10 @@ int main()
     cin>>columns;
     Matrix M1(rows,columns);
    
-    int ** p =new int* [rows];
+    double ** p =new double* [rows];
     for (int i=0; i<rows;i++)
     {
-        p[i]=new int[columns];
+        p[i]=new double[columns];
     }
     // prompt user to input the matrix
     for (int i=0;i<rows;i++)
@@ -34,6 +35,7 @@ int main()
             cin>>p[i][j];
         }
     }
-    
+    M1.setArray(p);
+    M1.printMatrix();
     
 }
