@@ -31,7 +31,12 @@ void Matrix:: printMatrix()
     {
         for (int j=0;j<columnCount;j++)
         {
-            cout<<setw(4)<< location[i][j];
+            if(location[i][j]==0|| (location[i][j]>0&& location[i][j]<0.0001)||(location[i][j]<0 && location[i][j]>=0.0001 ) )
+            {
+            cout<<setw(4)<<"0";
+            }
+           else
+               cout<<setprecision(2)<<setw(4)<< location[i][j];
         }
         cout<<endl;
     }
@@ -78,4 +83,71 @@ double Matrix:: getDet()
         }
     }
     return temp;
+}
+//🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀row operations🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀
+void Matrix:: rowSwap(int i,int j)
+{
+    if( i>rowCount || j>rowCount) exit(EXIT_FAILURE);
+    double temp;
+    for (int k=0; k<columnCount; k++)
+    {
+        temp=location[i-1][k];
+        location[i-1][k]=location[j-1][k];
+        location[j-1][k]=temp;
+    }
+}
+void Matrix:: rowMultiply(int m, double a)
+{
+    for (int k=0; k<columnCount; k++)
+    {
+        (location[m-1][k])*=a;
+    }
+}
+void Matrix:: rowAddition(double a, int i, int j)// eg: a*(Ri) + Rj = Rj(new)
+{
+    for (int k=0; k<columnCount; k++)
+    {
+        location[j-1][k]=a*location[i-1][k]+location[j-1][k];
+    }
+}
+//🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀
+void Matrix:: rref()
+{
+    //make 1000 first column
+    for (int j=0; j<rowCount;j++)
+    {
+        if(location[0][0]==0){ rowSwap(1,j+1);}
+        else break;
+    } //check for 0's at (1,1) position
+    
+    for (int i=1;i<=rowCount;i++)
+    {
+        if (location[i-1][i-1]==0) continue;// skip the below step if zero column encountered
+        rowMultiply(i, (1/(location[i-1][i-1])) ); // make 1 at (i,i)
+        for( int o=0;o<rowCount;o++)
+        {
+            if (o==i-1) continue;
+            double scalar=(-1)*location[o][i-1];
+            rowAddition(scalar,i,o+1);
+        }
+        // move down zero rows...
+           for (int b=rowCount;b>1;b--)
+           {
+               for(int j=1;j<b;j++)
+               {
+                   if (isZeroRow(j)) {rowSwap(j, j+1);}
+               }
+           }
+    }
+}
+//💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌RREF💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌
+bool Matrix::isZeroRow(int i)
+{
+    bool flag=true;
+    for (int j=0;j<columnCount;j++)
+    {
+        if(location[i-1][j]!=0) flag= false;
+    }
+    if (flag) return true;
+    else return false;
 }

@@ -12,19 +12,30 @@
 
 using namespace std;
 
+Matrix* getMatrix();
 int main()
+{
+    Matrix* M1=getMatrix();
+    
+    M1->printMatrix();
+ 
+    cout<<"\nthe RREF is "<<endl;
+    M1->rref();
+    M1->printMatrix();
+}
+Matrix* getMatrix()
 {
     cout<< "How many rows?\n";
     int rows,columns;
     cin>>rows;
     cout<< "How many columns?\n";
     cin>>columns;
-    Matrix M1(rows,columns);
+    Matrix*p = new Matrix(rows,columns);
    
-    double ** p =new double* [rows];
+    double ** p1 =new double* [rows];
     for (int i=0; i<rows;i++)
     {
-        p[i]=new double[columns];
+        p1[i]=new double[columns];
     }
     // prompt user to input the matrix
     for (int i=0;i<rows;i++)
@@ -32,11 +43,9 @@ int main()
         for( int j=0;j<columns;j++)
         {
             cout<<"row "<<i+1 << " column "<< j+1<<" :";
-            cin>>p[i][j];
+            cin>>p1[i][j];
         }
     }
-    M1.setArray(p);
-    double temp=M1.getDet();
-    cout<<temp<<endl;
-    return 0;
+    p->setArray(p1);
+    return p;
 }

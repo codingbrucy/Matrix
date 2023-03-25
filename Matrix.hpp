@@ -20,7 +20,9 @@ private:
     double det;
     double** location;
     bool isSquare=false;
-    
+    void makeUnitVector(int i);
+    bool isZeroRow(int i);
+
 public:
     Matrix(int r=1,int c=1);
     void setRow(int);
@@ -32,5 +34,9 @@ public:
     double getDet();
     void rref();
     Matrix subMatrix(int, int);
+    void rowSwap(int,int);
+    void rowMultiply(int, double);
+    void rowAddition(double a, int i, int j);// eg: a*(Ri) + Rj = Rj(new)
+    
 };
 #endif /* Matrix_hpp */
