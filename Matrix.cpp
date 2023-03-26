@@ -36,7 +36,7 @@ void Matrix:: printMatrix()
             cout<<setw(4)<<"0";
             }
            else
-               cout<<setprecision(2)<<setw(4)<< location[i][j];
+               cout<<setw(4)<<setprecision(2)<< location[i][j];
         }
         cout<<endl;
     }
@@ -113,16 +113,15 @@ void Matrix:: rowAddition(double a, int i, int j)// eg: a*(Ri) + Rj = Rj(new)
 //🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀🦀
 void Matrix:: rref()
 {
-    //make 1000 first column
-    for (int j=0; j<rowCount;j++)
-    {
-        if(location[0][0]==0){ rowSwap(1,j+1);}
-        else break;
-    } //check for 0's at (1,1) position
-    
     for (int i=1;i<=rowCount;i++)
     {
-        if (location[i-1][i-1]==0) continue;// skip the below step if zero column encountered
+        int r=i+1;
+        while (location[i-1][i-1]==0 && r<=rowCount)
+        {
+            rowSwap(i, r);
+            r++;
+        }//move rows below up if zero encountered
+        if(location[i-1][i-1]==0) continue;
         rowMultiply(i, (1/(location[i-1][i-1])) ); // make 1 at (i,i)
         for( int o=0;o<rowCount;o++)
         {
@@ -138,6 +137,24 @@ void Matrix:: rref()
                    if (isZeroRow(j)) {rowSwap(j, j+1);}
                }
            }
+     }
+    if (rowCount<columnCount)// check for pivot columns undetected
+    {
+        //make sure rows are in order
+    
+        int i=rowCount;
+        int j=i;
+        while (location[i-1][j]!=0 || j<columnCount )
+        {
+            if (location[i-1][j-1]!=0 && location [i-2][j-1]==0) rowSwap(i, i-1);
+            rowMultiply(i, (1/(location[i-1][j])) );
+            for( int o=0;o<i-1;o++)
+            {
+                double scalar=(-1)*location[o][j];
+                rowAddition(scalar,i,o+1);
+            }
+            j++;
+        }
     }
 }
 //💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌RREF💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌💌

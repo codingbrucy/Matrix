@@ -13,6 +13,7 @@
 using namespace std;
 
 Matrix* getMatrix();
+
 int main()
 {
     Matrix* M1=getMatrix();
@@ -22,6 +23,7 @@ int main()
     cout<<"\nthe RREF is "<<endl;
     M1->rref();
     M1->printMatrix();
+    
 }
 Matrix* getMatrix()
 {
