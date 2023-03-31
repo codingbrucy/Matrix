@@ -146,12 +146,16 @@ void Matrix:: rref()
         int j=i;
         while (location[i-1][j]!=0 || j<columnCount )
         {
-            if (location[i-1][j-1]!=0 && location [i-2][j-1]==0) rowSwap(i, i-1);
-            rowMultiply(i, (1/(location[i-1][j])) );
-            for( int o=0;o<i-1;o++)
+            if (subMatrix(i, j+1).isZeroRow(i-1) && location[i][j]!=0)
             {
-                double scalar=(-1)*location[o][j];
-                rowAddition(scalar,i,o+1);
+                rowSwap(i, i-1);
+                rowMultiply(i, (1/(location[i-1][j])) );
+                for( int o=0;o<i-1;o++)
+                {
+                    double scalar=(-1)*location[o][j];
+                    rowAddition(scalar,i,o+1);
+                }
+                j++;
             }
             j++;
         }

@@ -19,11 +19,10 @@ int main()
     Matrix* M1=getMatrix();
     
     M1->printMatrix();
- 
-    cout<<"\nthe RREF is "<<endl;
     M1->rref();
-    M1->printMatrix();
+   
     
+    M1->printMatrix();
 }
 Matrix* getMatrix()
 {
